@@ -1,0 +1,23 @@
+.main {
+  padding: 1rem;
+}
+
+.image img {
+  max-height: 200px;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  row-gap: 1rem;
+  column-gap: 1rem;
+}
+
+.search {
+  width: 100%;
+  border: 1px solid #aaa;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+}
