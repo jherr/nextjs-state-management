@@ -39,13 +39,6 @@ export const pokemonSlice = createSlice({
   name: "pokemon",
   initialState,
   reducers: {
-    rehydrate(state, action: PayloadAction<PokemonState>) {
-      state.error = action.payload.error;
-      state.pending = action.payload.pending;
-      state.pokemon = action.payload.pokemon;
-      state.filteredPokemon = action.payload.filteredPokemon;
-      state.search = action.payload.search;
-    },
     setSearch(state, action: PayloadAction<string>) {
       state.search = action.payload;
       state.filteredPokemon = state.pokemon.filter(({ name }) =>
@@ -70,12 +63,6 @@ export const pokemonSlice = createSlice({
   },
 });
 
-export const store = configureStore({
-  reducer: {
-    pokemon: pokemonSlice.reducer,
-  },
-});
-
 export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;
 export type AppThunk<ReturnType = void> = ThunkAction<
@@ -85,8 +72,20 @@ export type AppThunk<ReturnType = void> = ThunkAction<
   Action<string>
 >;
 
-export const { rehydrate, setSearch } = pokemonSlice.actions;
+export const { setSearch } = pokemonSlice.actions;
 
 export const selectSearch = (state: RootState) => state.pokemon.search;
 export const selectFilteredPokemon = (state: RootState) =>
   state.pokemon.filteredPokemon;
+
+export let store = null;
+
+export default function getStore(incomingPreloadState?: RootState) {
+  store = configureStore({
+    reducer: {
+      pokemon: pokemonSlice.reducer,
+    },
+    preloadedState: incomingPreloadState,
+  });
+  return store;
+}

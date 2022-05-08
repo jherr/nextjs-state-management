@@ -2,8 +2,7 @@
 import Head from "next/head";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  store,
+import getStore, {
   getPokemon,
   selectFilteredPokemon,
   selectSearch,
@@ -13,12 +12,8 @@ import {
 
 import styles from "../styles/Home.module.css";
 
-function Home({ initialState }) {
+function Home() {
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(rehydrate(initialState.pokemon));
-  }, [dispatch, initialState]);
 
   const pokemon = useSelector(selectFilteredPokemon);
   const search = useSelector(selectSearch);
@@ -56,6 +51,7 @@ function Home({ initialState }) {
 }
 
 export async function getServerSideProps() {
+  const store = getStore();
   await store.dispatch(getPokemon());
   return {
     props: {
